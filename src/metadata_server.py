@@ -12,6 +12,14 @@ client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
 db = client.metadata_server
 collection = db.metadata
 
+@app.get("/items/")
+async def list_all():
+    """List all items"""
+
+    # Query db.
+    results = await collection.find().to_list(1000)
+    return results
+
 
 @app.post("/items/{key}")
 async def create_item(key, value):
